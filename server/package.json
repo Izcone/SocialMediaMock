@@ -1,0 +1,32 @@
+{
+	"name": "server",
+	"version": "1.0.0",
+	"description": "SocialMediaApp Api",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon --exec babel-node src/index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Izcone/SocialMediaMock.git"
+	},
+	"keywords": [
+		"SocialMediaMockApp"
+	],
+	"author": "Eduardo Tavares",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Izcone/SocialMediaMock/issues"
+	},
+	"homepage": "https://github.com/Izcone/SocialMediaMock#readme",
+	"dependencies": {
+		"babel-preset-env": "^1.7.0",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"mongoose": "^5.9.28",
+		"uuidv4": "^6.2.2"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.4"
+	}
+}
