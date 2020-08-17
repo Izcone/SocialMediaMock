@@ -1,7 +1,13 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
-const UserSchema = mongoose.Schema({
+export interface IUser extends Document {
+	username: string;
+	password: string;
+	email: string;
+}
+
+const UserSchema: Schema = new Schema({
 	_id: {
 		type: String,
 		default: uuidv4(),
@@ -30,6 +36,6 @@ const UserSchema = mongoose.Schema({
 	},
 });
 
-const User = mongoose.model('User', UserSchema, 'Users');
+const User = mongoose.model<IUser>('User', UserSchema, 'Users');
 
 export { User };

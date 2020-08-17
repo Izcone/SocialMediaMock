@@ -1,9 +1,11 @@
 import bcrypt from 'bcrypt';
-import { User } from '../../entities/User';
+import { IResponseHandler } from './responseHandler';
 import { userExists, addUser } from '../../repositories/MongoUserRepository';
-import { CreateUserDTO } from './CreateUserDTO';
+import { CreateUserDTO, ICreateUserDTO } from './CreateUserDTO';
 
-const createUser = async (newUserDTO) => {
+const createUser = async (
+	newUserDTO: ICreateUserDTO
+): Promise<IResponseHandler> => {
 	const { username, email, password } = newUserDTO;
 
 	const alreadyExists = await userExists(email);
@@ -26,6 +28,10 @@ const createUser = async (newUserDTO) => {
 		return {
 			error: false,
 			message: '',
+			object: {
+				username: newUser.username,
+				email: newUser.email,
+			},
 		};
 	}
 

@@ -1,7 +1,13 @@
-import mongoose from 'mongoose';
+import { IUser } from './User';
+import mongoose, { Document, Schema } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
-const ScreamSchema = mongoose.Schema({
+export interface IScream extends Document {
+	user: IUser['username'];
+	body: string;
+}
+
+const ScreamSchema: Schema = new Schema({
 	_id: {
 		type: String,
 		default: uuidv4(),
@@ -22,6 +28,6 @@ const ScreamSchema = mongoose.Schema({
 	},
 });
 
-const Scream = mongoose.model('Scream', ScreamSchema);
+const Scream = mongoose.model<IScream>('Scream', ScreamSchema);
 
 export { Scream };
