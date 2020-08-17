@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { IResponseHandler } from './responseHandler';
+import { IResponseHandler } from './../../handlers/responseHandler';
 import { userExists, addUser } from '../../repositories/MongoUserRepository';
 import { CreateUserDTO, ICreateUserDTO } from './CreateUserDTO';
 
