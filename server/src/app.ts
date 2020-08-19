@@ -1,15 +1,12 @@
 import express from 'express';
-import { router } from './router';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { router } from './router';
+import { MONGO_URI, MONGO_OPTIONS, SESSION_OPTIONS } from './config';
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 mongoose
-	.connect(process.env.DB_CONNECT, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
+	.connect(MONGO_URI, MONGO_OPTIONS)
 	.then(() => {
 		console.log('Connected to mongo');
 	})
@@ -21,5 +18,13 @@ const app = express();
 
 app.use(express.json());
 app.use(router);
+app.use(
+	session({
+		...SESSION_OPTIONS,
+		store: new MongoStore({
+			url: process.env.DB_CONNECT,
+		}),
+	})
+);
 
 export { app };
