@@ -1,5 +1,5 @@
-export interface IResponseHandler {
+export interface IResponseHandler<T> {
 	error: boolean;
 	message: string;
-	object?: any;
+	object?: T;
 }

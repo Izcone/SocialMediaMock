@@ -1,4 +1,4 @@
-import { ICreateUserDTO } from './../useCases/User/CreateUserDTO';
+import { IUserDTO } from '../useCases/Auth/UserDTO';
 import { User } from '../entities/User';
 
 export const userExists = async (email: string): Promise<boolean> => {
@@ -6,9 +6,16 @@ export const userExists = async (email: string): Promise<boolean> => {
 	return user ? true : false;
 };
 
-export const addUser = async (
-	newUserDTO: ICreateUserDTO
-): Promise<ICreateUserDTO> => {
+export const getUserInfo = async (userId: string): Promise<IUserDTO> => {
+	try {
+		const user = await User.findOne({ userId });
+		return user;
+	} catch (error) {
+		return null;
+	}
+};
+
+export const addUser = async (newUserDTO: IUserDTO): Promise<IUserDTO> => {
 	try {
 		const user = await User.create(newUserDTO);
 		return user;
