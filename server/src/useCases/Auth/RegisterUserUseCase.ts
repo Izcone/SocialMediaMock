@@ -1,12 +1,11 @@
-import bcrypt from 'bcrypt';
-import { IResponseHandler } from './../../handlers/responseHandler';
+import { IResponseHandler } from '../../handlers/responseHandler';
 import { userExists, addUser } from '../../repositories/MongoUserRepository';
-import { UserDTO, IUserDTO } from './UserDTO';
+import { IUserDTO } from './UserDTO';
 
-const createUser = async (
+const registerUser = async (
 	newUserDTO: IUserDTO
 ): Promise<IResponseHandler<IUserDTO>> => {
-	const { name, email, password } = newUserDTO;
+	const { email } = newUserDTO;
 
 	const alreadyExists = await userExists(email);
 
@@ -17,12 +16,7 @@ const createUser = async (
 		};
 	}
 
-	const salt = bcrypt.genSaltSync(10);
-	const hash = bcrypt.hashSync(password, salt);
-
-	const hashedUser = new UserDTO(name, email, hash);
-
-	const newUser = await addUser(hashedUser);
+	const newUser = await addUser(newUserDTO);
 
 	if (newUser) {
 		return {
@@ -43,4 +37,4 @@ const createUser = async (
 	};
 };
 
-export default createUser;
+export default registerUser;

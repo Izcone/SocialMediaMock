@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import { router } from './router';
 import { MONGO_URI, MONGO_OPTIONS, SESSION_OPTIONS } from './config';
@@ -16,8 +16,6 @@ mongoose
 
 const app = express();
 
-app.use(express.json());
-app.use(router);
 app.use(
 	session({
 		...SESSION_OPTIONS,
@@ -26,5 +24,12 @@ app.use(
 		}),
 	})
 );
+
+app.use(express.json());
+app.use(router);
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+	res.status(404).send({ message: 'Not Found' });
+});
 
 export { app };

@@ -2,13 +2,13 @@ import { Request } from 'express';
 import { IResponseHandler } from './../../handlers/responseHandler';
 import { getUserInfo } from '../../repositories/MongoUserRepository';
 
+export const isLoggedIn = (req: Request) => !!req.session!.userId;
+
 const logIn = async (
 	req: Request,
 	userId: string
 ): Promise<IResponseHandler<any>> => {
-	const user = getUserInfo(userId);
-
-	console.log(userId, user);
+	const user = await getUserInfo(userId);
 
 	req.session!.userId = userId;
 
@@ -19,7 +19,11 @@ const logIn = async (
 		};
 	}
 
-	return null;
+	return {
+		error: false,
+		message: '',
+		object: user,
+	};
 };
 
 export default logIn;

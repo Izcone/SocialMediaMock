@@ -1,5 +1,7 @@
+import { BCRYPT_WORK_FACTOR } from './../config/auth';
 import mongoose, { Schema, Document } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
+import { hash } from 'bcrypt';
 
 export interface IUser extends Document {
 	name: string;
@@ -40,6 +42,12 @@ const UserSchema: Schema = new Schema(
 		timestamps: true,
 	}
 );
+
+UserSchema.pre<IUser>('save', async function () {
+	if (this.isModified('password')) {
+		this.password = await hash(this.password, BCRYPT_WORK_FACTOR);
+	}
+});
 
 const User = mongoose.model<IUser>('User', UserSchema, 'Users');
 

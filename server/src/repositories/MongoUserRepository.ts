@@ -8,10 +8,10 @@ export const userExists = async (email: string): Promise<boolean> => {
 
 export const getUserInfo = async (userId: string): Promise<IUserDTO> => {
 	try {
-		const user = await User.findOne({ userId });
+		const user = await User.findOne({ _id: userId });
 		return user;
 	} catch (error) {
-		return null;
+		return error;
 	}
 };
 

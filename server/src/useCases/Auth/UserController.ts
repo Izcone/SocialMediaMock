@@ -1,24 +1,29 @@
+import { guest } from './../../middleware/auth';
 import { Router, Request, Response } from 'express';
 import { UserDTO } from './UserDTO';
-import { registerSchema, loginSchema } from './Schemas/Validation';
-import createUser from './CreateUserUseCase';
+import { registerSchema, loginSchema, validate } from './Schemas/Validation';
+import registerUser from './RegisterUserUseCase';
 import logIn from './LoginUserUseCase';
 
 const router = Router();
 
 router.post(
 	'/register',
+	guest,
 	async (req: Request, res: Response): Promise<Response> => {
-		await registerSchema.validateAsync(req.body, { abortEarly: false });
+		const valid = await validate(registerSchema, req.body);
+
+		if (valid.error) {
+			return res.status(400).send(valid.message);
+		}
 
 		const { name, email, password } = req.body;
 		const newUserDTO = new UserDTO(name, email, password);
 
-		const { error, message, object } = await createUser(newUserDTO);
+		const { error, message, object } = await registerUser(newUserDTO);
 
 		if (!error) {
-			console.log(object);
-			logIn(req, object.id);
+			await logIn(req, object.id);
 			return res.status(201).send();
 		}
 
