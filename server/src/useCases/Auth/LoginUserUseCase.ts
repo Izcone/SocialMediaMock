@@ -6,23 +6,29 @@ export const isLoggedIn = (req: Request) => !!req.session!.userId;
 
 const logIn = async (
 	req: Request,
-	userId: string
+	userId?: string,
+	email?: string,
+	password?: string
 ): Promise<IResponseHandler<any>> => {
-	const user = await getUserInfo(userId);
+	if (userId) {
+		req.session!.userId = userId;
+		return;
+	}
 
-	req.session!.userId = userId;
+	const user = await getUserInfo('', email);
 
-	if (!user) {
+	if (!user || !(await user.matchesPassword(password))) {
 		return {
 			error: true,
 			message: 'Email or password are invalid!',
 		};
 	}
 
+	req.session!.userId = user._id;
+
 	return {
 		error: false,
-		message: '',
-		object: user,
+		message: 'Logged in',
 	};
 };
 

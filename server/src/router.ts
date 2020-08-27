@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import { userController } from './useCases/auth/UserController';
+import { authController } from './useCases/Auth/AuthController';
 
 const router = Router();
 
-router.use('/api/user', userController);
+router.use('/api/auth', authController);
 
 export { router };

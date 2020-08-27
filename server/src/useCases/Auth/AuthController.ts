@@ -1,9 +1,10 @@
-import { guest } from './../../middleware/auth';
+import { guest, auth } from '../../middleware/auth';
 import { Router, Request, Response } from 'express';
 import { UserDTO } from './UserDTO';
 import { registerSchema, loginSchema, validate } from './Schemas/Validation';
 import registerUser from './RegisterUserUseCase';
 import logIn from './LoginUserUseCase';
+import logOut from './LogoutUserUseCase';
 
 const router = Router();
 
@@ -33,11 +34,34 @@ router.post(
 
 router.post(
 	'/login',
+	guest,
 	async (req: Request, res: Response): Promise<Response> => {
-		await loginSchema.validateAsync(req.body, { abortEarly: false });
+		const valid = await validate(loginSchema, req.body);
 
-		return res.status(2);
+		if (valid.error) {
+			return res.status(400).send(valid.message);
+		}
+
+		const { email, password } = req.body;
+
+		const { error, message } = await logIn(req, '', email, password);
+
+		if (!error) {
+			return res.status(200).send();
+		}
+
+		return res.status(401).send(message);
 	}
 );
 
-export { router as userController };
+router.post('/logout', auth, async (req: Request, res: Response) => {
+	const { error, message } = await logOut(req, res);
+
+	if (!error) {
+		return res.status(200).send();
+	}
+
+	return res.status(401).send(message);
+});
+
+export { router as authController };

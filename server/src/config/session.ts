@@ -1,7 +1,11 @@
 import { IN_PROD } from './app';
 import { SessionOptions } from 'express-session';
 
-const { SESSION_SECRET, SESSION_NAME, SESSION_IDLE_TIMEOUT } = process.env;
+export const {
+	SESSION_SECRET,
+	SESSION_NAME,
+	SESSION_IDLE_TIMEOUT,
+} = process.env;
 
 export const SESSION_OPTIONS: SessionOptions = {
 	secret: SESSION_SECRET,

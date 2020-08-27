@@ -1,3 +1,5 @@
+import { compare } from 'bcrypt';
+
 export interface IUserDTO {
 	id?: string;
 	name: string;
@@ -14,5 +16,9 @@ export class UserDTO {
 		this.name = name;
 		this.email = email;
 		this.password = password;
+	}
+
+	matchesPassword(password: string) {
+		return compare(password, this.password);
 	}
 }

@@ -1,12 +1,13 @@
 import { BCRYPT_WORK_FACTOR } from './../config/auth';
 import mongoose, { Schema, Document } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
-import { hash } from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 
 export interface IUser extends Document {
 	name: string;
 	password: string;
 	email: string;
+	matchesPassword: (password: string) => Promise<boolean>;
 }
 
 const UserSchema: Schema = new Schema(
@@ -48,6 +49,10 @@ UserSchema.pre<IUser>('save', async function () {
 		this.password = await hash(this.password, BCRYPT_WORK_FACTOR);
 	}
 });
+
+UserSchema.methods.matchesPassword = async function (password: string) {
+	return compare(password, this.password);
+};
 
 const User = mongoose.model<IUser>('User', UserSchema, 'Users');
 
