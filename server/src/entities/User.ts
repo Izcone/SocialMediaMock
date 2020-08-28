@@ -51,7 +51,7 @@ UserSchema.pre<IUser>('save', async function () {
 });
 
 UserSchema.methods.matchesPassword = async function (password: string) {
-	return compare(password, this.password);
+	return await compare(password, this.password);
 };
 
 const User = mongoose.model<IUser>('User', UserSchema, 'Users');

@@ -1,6 +1,6 @@
 import { IResponseHandler } from '../../handlers/responseHandler';
 import { userExists, addUser } from '../../repositories/MongoUserRepository';
-import { IUserDTO } from './UserDTO';
+import { IUserDTO, UserDTO } from './UserDTO';
 
 const registerUser = async (
 	newUserDTO: IUserDTO

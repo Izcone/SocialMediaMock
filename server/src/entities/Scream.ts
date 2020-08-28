@@ -3,8 +3,8 @@ import mongoose, { Document, Schema } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface IScream extends Document {
-	user: IUser['name'];
-	body: string;
+	userId: IUser['_id'];
+	body: String;
 }
 
 const ScreamSchema: Schema = new Schema({
@@ -16,7 +16,7 @@ const ScreamSchema: Schema = new Schema({
 		type: Date,
 		default: Date.now,
 	},
-	user: {
+	userId: {
 		type: String,
 		required: true,
 	},
@@ -28,6 +28,6 @@ const ScreamSchema: Schema = new Schema({
 	},
 });
 
-const Scream = mongoose.model<IScream>('Scream', ScreamSchema);
+const Scream = mongoose.model<IScream>('Scream', ScreamSchema, 'Screams');
 
 export { Scream };
