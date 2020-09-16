@@ -10,7 +10,8 @@ export interface IScream extends Document {
 const ScreamSchema: Schema = new Schema({
 	_id: {
 		type: String,
-		default: uuidv4(),
+		unique: true,
+		default: uuidv4,
 	},
 	_createdAt: {
 		type: Date,

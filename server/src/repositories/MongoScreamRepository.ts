@@ -6,7 +6,6 @@ export const addScream = async (scream: IScreamDTO): Promise<IScreamDTO> => {
 		const newScream = await Scream.create(scream);
 		return newScream;
 	} catch (error) {
-		console.log(error);
 		return null;
 	}
 };

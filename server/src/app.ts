@@ -26,6 +26,16 @@ app.use(
 );
 
 app.use(express.json());
+
+app.get('/resetdb', (req, res) => {
+	try {
+		mongoose.connection.dropDatabase();
+		res.status(200).send('deu');
+	} catch (error) {
+		res.status(400).send(error);
+	}
+});
+
 app.use(router);
 
 app.use((req: Request, res: Response, next: NextFunction) => {

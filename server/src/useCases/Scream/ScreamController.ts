@@ -13,7 +13,7 @@ router.post(
 
 		const { error, message } = await createScream(userId, body);
 
-		return error ? res.status(400).send(message) : res.status(201);
+		return error ? res.status(400).send(message) : res.status(201).send();
 	}
 );
 

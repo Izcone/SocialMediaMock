@@ -14,7 +14,7 @@ const UserSchema: Schema = new Schema(
 	{
 		_id: {
 			type: String,
-			default: uuidv4(),
+			default: uuidv4,
 		},
 		accountCreated: {
 			type: Date,

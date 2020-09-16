@@ -11,7 +11,7 @@ const createScream = async (
 
 	const valid = await addScream(newScream);
 
-	if (valid) {
+	if (valid !== null) {
 		return {
 			error: false,
 			message: '',
